@@ -47,7 +47,7 @@ class Dummy < ActiveRecord::Base
 end
 ```
 
-If you call `can? :read, Dummy`, the gem will evaluate `Dummy` protection block against value passed to `import_protector` (by default it's `current_user`) and expand CanCan rules with resulting meta.
+If you call `can? :view, Dummy`, the gem will evaluate `Dummy` protection block against value passed to `import_protector` (by default it's `current_user`) and expand CanCan rules with resulting meta. Note that gem automatically converts `:read` to `:view` so you should use CanCan naming conventions when working with CanCan.
 
 So in this particular case we will get `true` if `current_user` is set and `false` otherwise.
 
