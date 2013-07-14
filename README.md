@@ -1,8 +1,16 @@
 # Protector::Cancan
 
-TODO: Write a gem description
+Integrates [Protector](https://github.com/inossidabile/protector) and [CanCan](https://github.com/ryanb/cancan).
+
+Protector and CanCan are all about the same thing: access control. They however act on different fronts: Protector works on a model level and CanCan is all about controllers defense. With this gem you don't have to choose anymore: make them work together for the best result.
+
+The integration makes CanCan aware of Protector restrictions. You still can have separate `Ability` instance and even extend (or override) what comes from Protector.
+
+Additionally CanCan will automatically restrict instances with `current_user` during `load_resource` part.
 
 ## Installation
+
+You are expected to have generated CanCan ability by this moment. Proceed to [CanCan installation tutorial](https://github.com/ryanb/cancan#1-define-abilities) to make one if you don't.
 
 Add this line to your application's Gemfile:
 
@@ -12,18 +20,54 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Now modify your `Ability` definition in the following way:
 
-    $ gem install protector-cancan
+```ruby
+class Ability
+  include CanCan::Ability
 
-## Usage
+  def intialize(user)
+    import_protector user # <- add this
+  end
+end
+```
 
-TODO: Write usage instructions here
+## Example
 
-## Contributing
+For the case when you have the following model defined:
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+class Dummy < ActiveRecord::Base
+  protect do |user|
+    can :read if user
+  end
+end
+```
+
+If you call `can? :read, Dummy`, the gem will evaluate `Dummy` protection block against value passed to `import_protector` (by default it's `current_user`) and expand CanCan rules with resulting meta.
+
+So in this particular case we will get `true` if `current_user` is set and `false` otherwise.
+
+And that's how controller is going to work:
+
+```ruby
+class DummiesController
+  load_and_authorize_resources
+
+  def index    # Will be accessible if current_user isn't blank
+    @dummies   # => Dummy.restrict!(current_user)
+  end
+
+  def show     # Will be accessible if current_user isn't blank
+    @dummy     # => Dummy.find(params[:id]).restrict!(current_user)
+  end
+end
+```
+
+## Maintainers
+
+* Boris Staal, [@inossidabile](http://staal.io)
+
+## License
+
+It is free software, and may be redistributed under the terms of MIT license.
