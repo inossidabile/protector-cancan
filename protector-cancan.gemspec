@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "protector"
+  spec.add_dependency "protector", ">= 0.5.3"
   spec.add_dependency "cancan"
+  spec.add_dependency "activesupport"
 end
