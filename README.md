@@ -1,5 +1,8 @@
 # Protector::Cancan
 
+[![Gem Version](https://badge.fury.io/rb/protector-cancan.png)](http://badge.fury.io/rb/protector-cancan)
+[![Build Status](https://travis-ci.org/inossidabile/protector-cancan.png?branch=master)](https://travis-ci.org/inossidabile/protector-cancan)
+
 Integrates [Protector](https://github.com/inossidabile/protector) and [CanCan](https://github.com/ryanb/cancan).
 
 Protector and CanCan are all about the same thing: access control. They however act on different fronts: Protector works on a model level and CanCan is all about controllers defense. With this gem you don't have to choose anymore: make them work together for the best result.
