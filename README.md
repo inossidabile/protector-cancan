@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/protector-cancan.png)](http://badge.fury.io/rb/protector-cancan)
 [![Build Status](https://travis-ci.org/inossidabile/protector-cancan.png?branch=master)](https://travis-ci.org/inossidabile/protector-cancan)
+[![Code Climate](https://codeclimate.com/github/inossidabile/protector-cancan.png)](https://codeclimate.com/github/inossidabile/protector-cancan)
 
 Integrates [Protector](https://github.com/inossidabile/protector) and [CanCan](https://github.com/ryanb/cancan).
 
