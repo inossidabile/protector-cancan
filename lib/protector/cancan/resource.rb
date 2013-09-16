@@ -2,15 +2,15 @@ module Protector
   module CanCan
     module Resource extend ActiveSupport::Concern
       included do
-        alias_method_chain :load_resource, :protector
+        alias_method_chain :resource_base, :protector
         alias_method_chain :load_collection, :protector
         alias_method_chain :load_collection?, :protector
       end
 
-      def load_resource_with_protector
-        resource = load_resource_without_protector
+      def resource_base_with_protector
+        resource = resource_base_without_protector
 
-        if is_protected_resource?(resource) && !resource.protector_subject?
+        if is_protected_resource? resource
           resource.restrict!(current_ability.protector_subject)
         else
           resource
@@ -21,7 +21,6 @@ module Protector
         resource = resource_base
 
         if is_protected_resource? resource
-          # resource will be restricted by load_resource later.
           resource
         else
           load_collection_without_protector
