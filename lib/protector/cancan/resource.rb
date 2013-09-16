@@ -4,32 +4,43 @@ module Protector
       included do
         alias_method_chain :load_resource, :protector
         alias_method_chain :load_collection, :protector
+        alias_method_chain :load_collection?, :protector
       end
 
-      def load_resource_with_protector(*args)
-        resource = load_resource_without_protector(*args)
+      def load_resource_with_protector
+        resource = load_resource_without_protector
 
-        if resource.respond_to?(:restrict!) \
-            && !resource.protector_subject? \
-            && current_ability.protector_subject?
-
-          resource = resource.restrict!(current_ability.protector_subject)
+        if is_protected_resource?(resource) && !resource.protector_subject?
+          resource.restrict!(current_ability.protector_subject)
+        else
+          resource
         end
-        
-        resource
       end
 
-      def load_collection_with_protector(*args)
-        collection = load_collection_without_protector(*args)
+      def load_collection_with_protector
+        resource = resource_base
 
-        if collection.respond_to?(:restrict!) \
-            && !collection.protector_subject? \
-            && current_ability.protector_subject?
-
-          collection = collection.restrict!(current_ability.protector_subject)
+        if is_protected_resource? resource
+          # resource will be restricted by load_resource later.
+          resource
+        else
+          load_collection_without_protector
         end
-        
-        collection
+      end
+
+      def load_collection_with_protector?
+        if is_protected_resource? resource_base
+          true
+        else
+          load_collection_without_protector?
+        end
+      end
+
+      private
+
+      def is_protected_resource?(resource)
+        resource.respond_to?(:restrict!) &&
+        current_ability.protector_subject?
       end
     end
   end
