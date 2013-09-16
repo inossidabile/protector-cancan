@@ -20,7 +20,13 @@ module Protector
       def self.included(mod)
         mod.class_eval do
 
-          def can_with_protector?(action, entity, *extra_args)
+          def can_with_protector?(action, entity_set, *extra_args)
+            if entity_set.is_a? Hash
+              entity = entity_set.values.first
+            else
+              entity = entity_set
+            end
+
             if entity.respond_to?(:restrict!) && @protector_subject_defined
               @protector_models ||= Set.new
 
@@ -42,11 +48,10 @@ module Protector
               end
             end
 
-            can_without_protector? action, entity, *extra_args
+            can_without_protector? action, entity_set, *extra_args
           end
 
           alias_method_chain :can?, :protector
-
         end
       end
     end
