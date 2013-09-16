@@ -10,7 +10,7 @@ module Protector
       def resource_base_with_protector
         resource = resource_base_without_protector
 
-        if is_protected_resource? resource
+        if resource_protectable? resource
           resource.restrict!(current_ability.protector_subject)
         else
           resource
@@ -20,7 +20,7 @@ module Protector
       def load_collection_with_protector
         resource = resource_base
 
-        if is_protected_resource? resource
+        if resource_protectable? resource
           resource
         else
           load_collection_without_protector
@@ -28,7 +28,7 @@ module Protector
       end
 
       def load_collection_with_protector?
-        if is_protected_resource? resource_base
+        if resource_protectable? resource_base
           true
         else
           load_collection_without_protector?
@@ -37,7 +37,7 @@ module Protector
 
       private
 
-      def is_protected_resource?(resource)
+      def resource_protectable?(resource)
         resource.respond_to?(:restrict!) &&
         current_ability.protector_subject?
       end
