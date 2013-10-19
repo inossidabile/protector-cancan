@@ -75,3 +75,6 @@ end
 ## License
 
 It is free software, and may be redistributed under the terms of MIT license.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/inossidabile/protector-cancan/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
