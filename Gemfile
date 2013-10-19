@@ -6,7 +6,7 @@ gem 'rake'
 gem 'pry'
 gem 'rspec'
 
-gem 'combustion', github: 'pat/combustion'
+gem 'combustion', github: 'pat/combustion', ref: '50a946b5a7ab3d9249f0e5fcebbb73488a91b1e5'
 gem 'rails', '>= 4.0.0'
 gem 'rspec-rails'
 
