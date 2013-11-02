@@ -13,6 +13,10 @@ describe Protector::CanCan::Ability do
     end
   end
 
+  let(:_model) do
+    _Model.new
+  end
+
   it "defaults properly" do
     _Ability.new.protector_subject?.should == false
   end
@@ -43,6 +47,7 @@ describe Protector::CanCan::Ability do
 
     _Model.class_eval do
       protect do |user|
+        user.should == 'user'
         can :view
         can :create
         can :update
@@ -60,5 +65,10 @@ describe Protector::CanCan::Ability do
     ability.can?(:update, _Model).should == true
     ability.can?(:destroy, _Model).should == true
     ability.can?(:test, _Model).should == true
+    ability.can?(:read, _model).should == true
+    ability.can?(:create, _model).should == true
+    ability.can?(:update, _model).should == true
+    ability.can?(:destroy, _model).should == true
+    ability.can?(:test, _model).should == true
   end
 end
