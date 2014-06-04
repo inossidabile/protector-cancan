@@ -30,7 +30,7 @@ Now modify your `Ability` definition in the following way:
 class Ability
   include CanCan::Ability
 
-  def intialize(user)
+  def initialize(user)
     import_protector user # <- add this
   end
 end
