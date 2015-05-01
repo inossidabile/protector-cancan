@@ -18,21 +18,17 @@ module Protector
       end
 
       def load_collection_with_protector
-        resource = resource_base
+        resource = load_collection_without_protector
 
         if resource_protectable? resource
-          resource
+          resource.restrict!(current_ability.protector_subject)
         else
-          load_collection_without_protector
+          resource
         end
       end
 
       def load_collection_with_protector?
-        if resource_protectable? resource_base
-          true
-        else
-          load_collection_without_protector?
-        end
+        load_collection_without_protector? || resource_protectable?(resource_base)
       end
 
       private
